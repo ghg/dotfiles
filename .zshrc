@@ -94,7 +94,6 @@ export CLICOLOR=1
 export DCX='/Users/greg/Projects/work'
 export EDITOR='vim'
 export FZF_DEFAULT_COMMAND='rg --files'
-# export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 export GOPATH='/Users/greg/Projects/personal/go'
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$HOME/Bin
