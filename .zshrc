@@ -46,7 +46,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 # User configuration
 
@@ -60,9 +60,13 @@ case `uname` in
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home'
+    export GOPATH='/Users/greg/Projects/personal/go'
     export SHELL=/usr/local/bin/zsh
+    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   ;;
   Linux)
+    export GOPATH='/home/greg/Projects/personal/go'
+    export PATH=$PATH:/usr/local/src/idea/bin
     export SHELL=/usr/bin/zsh
   ;;
 esac
@@ -94,9 +98,9 @@ export CLICOLOR=1
 export DCX='/Users/greg/Projects/work'
 export EDITOR='vim'
 export FZF_DEFAULT_COMMAND='rg --files'
-export GOPATH='/Users/greg/Projects/personal/go'
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$HOME/Bin
+export PATH=$PATH:/usr/local/go/bin
 export TERM=xterm-256color
 export VIMCONFIG=$HOME/.vim
 export VIMDATA=$HOME/.vim
@@ -161,12 +165,8 @@ ssh-add -A > /dev/null 2>&1
 # include rvm
 source ~/.rvm/scripts/rvm
 
-# include zsh-autosuggestions
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 bindkey '^ ' autosuggest-accept
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 [[ -s /usr/local/etc/grc.zsh ]] && source /usr/local/etc/grc.zsh
-
-eval $(thefuck --alias)
