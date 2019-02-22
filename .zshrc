@@ -68,6 +68,7 @@ case `uname` in
     export GOPATH='/home/greg/Projects/personal/go'
     export PATH=$PATH:/usr/local/src/idea/bin
     export SHELL=/usr/bin/zsh
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
   ;;
 esac
 
