@@ -6,7 +6,7 @@
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_global
-  pager = cat
+        pager = cat
 	autocrlf = input
 [branch]
 	autosetuprebase = always
