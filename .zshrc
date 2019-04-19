@@ -46,7 +46,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(colored-man-pages git jsontools zsh-autosuggestions)
 
 # User configuration
 
@@ -55,7 +55,6 @@ source $ZSH/oh-my-zsh.sh
 case `uname` in
   Darwin)
     export ANSIBLE_ROLES_PATH='/usr/local/etc/ansible/roles'
-    export ANSIBLE_VAULT_PASSWORD_FILE='~/.dcxps_encryption_key'
     export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
@@ -105,6 +104,7 @@ export PATH=$PATH:/usr/local/go/bin
 export TERM=xterm-256color
 export VIMCONFIG=$HOME/.vim
 export VIMDATA=$HOME/.vim
+export DOCKER_BUILDKIT=1
 
 alias ascii='man ascii'
 alias be='bundle exec'
@@ -124,7 +124,8 @@ alias listening='sudo lsof -i -n -P | grep -i listen'
 alias myip='curl -s https://icanhazip.com | tee /dev/tty | pbcopy'
 alias prune_branches='git branch | grep -v "develop\|master" | xargs git branch -D'
 alias run_brakeman='brakeman -A -z -f html -o $PWD/tmp/brakeman/brakeman.html'
-alias start_mongo='./bin/mongod --bind_ip=127.0.0.1 --dbpath ../mongo_data'
+alias start_mongo='docker run --rm --name docker-mongo -p 27017:27017 -v $HOME/docker/volumes/mongodb:/data/db mongo'
+alias start_postgres='docker run --rm --name docker-pg -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres'
 alias utc='date -u'
 alias v='vim'
 alias vi='vim'
@@ -135,25 +136,28 @@ setopt sharehistory
 
 ulimit -n 2056
 
-# functions
-function h() {
-  history | grep $*
+function get_cert() {
+  openssl s_client -showcerts -connect $*:443 <<< "Q"
 }
 
-function open_files_for_pid() {
+function get_ciphers() {
+  nmap --script ssl-enum-ciphers -p 443 $*
+}
+
+function get_open_files_for_pid() {
   lsof -nPp $*
 }
 
-function strace_summary_for_pid() {
-  strace -cp $*
-}
-
-function strace_ruby() {
+function get_strace_ruby() {
   strace -f -e trace=execve $*
 }
 
-function test_ciphers() {
-  nmap --script ssl-enum-ciphers -p 443 $*
+function get_strace_summary_for_pid() {
+  strace -cp $*
+}
+
+function h() {
+  history | grep $*
 }
 
 function uninstall_gems() {
