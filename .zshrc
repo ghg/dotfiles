@@ -59,12 +59,12 @@ case `uname` in
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
     # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home'
-    export GOPATH='/Users/greg/Projects/personal/go'
+    export GOPATH='/Users/greg/Projects/src/go'
     export SHELL=/usr/local/bin/zsh
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   ;;
   Linux)
-    export GOPATH='/home/greg/Projects/personal/go'
+    export GOPATH='/home/greg/Projects/src/go'
     export PATH=$PATH:/usr/local/src/idea/bin
     export SHELL=/usr/bin/zsh
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -91,26 +91,21 @@ SAVEHIST=5000
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PROJECT_DIR=$HOME/Projects
-
-export AUTOHOST='/Users/greg/Projects/work'
 export CLICOLOR=1
-export DCX='/Users/greg/Projects/work'
+export DOCKER_BUILDKIT=1
 export EDITOR='vim'
-export FZF_DEFAULT_COMMAND='rg --files'
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$HOME/Bin
 export PATH=$PATH:/usr/local/go/bin
+export PROJECT_DIR=$HOME/Projects
 export TERM=xterm-256color
 export VIMCONFIG=$HOME/.vim
 export VIMDATA=$HOME/.vim
-export DOCKER_BUILDKIT=1
 
 alias ascii='man ascii'
 alias be='bundle exec'
 alias delete_all_containers='docker ps -a -q | xargs --no-run-if-empty docker rm -f'
 alias delete_all_exited_containers='docker ps -a -q --filter status=exited | xargs --no-run-if-empty docker rm -f'
-alias docker_build='docker build -t $(basename $PWD) .'
 alias established='lsof -P -i | grep -i established'
 alias g='git status'
 alias ga='git add'
@@ -124,8 +119,12 @@ alias listening='sudo lsof -i -n -P | grep -i listen'
 alias myip='curl -s https://icanhazip.com | tee /dev/tty | pbcopy'
 alias prune_branches='git branch | grep -v "develop\|master" | xargs git branch -D'
 alias run_brakeman='brakeman -A -z -f html -o $PWD/tmp/brakeman/brakeman.html'
+alias start_dynamo='docker run --rm --name docker-dynamo -p 8000:8000 amazon/dynamodb-local'
 alias start_mongo='docker run --rm --name docker-mongo -p 27017:27017 -v $HOME/docker/volumes/mongodb:/data/db mongo'
+alias start_mysql='docker run --rm --name docker-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -v $HOME/docker/volumes/mysql:/var/lib/mysql mysql:5.7'
 alias start_postgres='docker run --rm --name docker-pg -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres'
+alias start_redis='docker run --rm --name docker-redis -p 6379:6379 -v $HOME/docker/volumes/redis:/data redis redis-server --appendonly yes'
+alias start_sqlite='docker run --rm --name docker-sqlite nouchka/sqlite3'
 alias utc='date -u'
 alias v='vim'
 alias vi='vim'
@@ -138,6 +137,10 @@ ulimit -n 2056
 
 function get_cert() {
   openssl s_client -showcerts -connect $*:443 <<< "Q"
+}
+
+function get_cert_dates() {
+  echo | openssl s_client -connect $*:443 2>/dev/null | openssl x509 -noout -dates
 }
 
 function get_ciphers() {
@@ -169,7 +172,6 @@ ssh-add -A > /dev/null 2>&1
 
 # include rvm
 source ~/.rvm/scripts/rvm
-
 
 bindkey '^ ' autosuggest-accept
 
