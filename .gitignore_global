@@ -7,6 +7,7 @@ tags
 vendor
 *.7z
 *.beam
+*.db
 *.dmg
 *.gz
 *.iml
