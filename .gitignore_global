@@ -3,6 +3,7 @@
 .capistrano
 .ctags
 .idea
+.tags*
 tags
 vendor
 *.7z
@@ -20,6 +21,5 @@ vendor
 *.sqlite
 *.tar
 *.zip
-tags
 outfile
 
