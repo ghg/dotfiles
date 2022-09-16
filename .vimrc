@@ -8,16 +8,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'mhartington/oceanic-next'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'rafi/awesome-vim-colorschemes'
-Plugin 'editorconfig/editorconfig-vim'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'stephpy/vim-yaml'
-Plugin 'dracula/vim'
+Plugin 'dracula/vim', { 'name': 'dracula' }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -28,7 +25,8 @@ filetype plugin indent on    " required
 " autocmd BufWritePost .vimrc source $MYVIMRC
 
 syntax on
-color OceanicNext
+colorscheme dracula
+let g:airline_theme='papercolor'
 
 " set leader
 let mapleader = ","
@@ -51,8 +49,8 @@ set noswapfile
 set nowb
 
 " set visual bell so ESC in normal mode doesn't beep
-" set visualbell
-" set noerrorbells
+set visualbell
+set noerrorbells
 
 " format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l

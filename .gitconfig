@@ -1,6 +1,6 @@
 [user]
 	name = Gregory Graf
-	email = ghg@ghg27.io
+	email = ghg@users.noreply.github.com
 [color]
 	ui = true
 [core]
@@ -24,3 +24,5 @@
 [commit]
 	template = ~/.gitmessage
 
+[init]
+	defaultBranch = master

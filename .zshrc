@@ -46,35 +46,16 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(colored-man-pages git jsontools zsh-autosuggestions)
+plugins=(colored-man-pages git)
 
 # User configuration
 
 source $ZSH/oh-my-zsh.sh
 
-case `uname` in
-  Darwin)
-    export ANSIBLE_ROLES_PATH='/usr/local/etc/ansible/roles'
-    export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home'
-    # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
-    # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
-    # export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home'
-    export GOPATH='/Users/greg/Projects/src/go'
-    export SHELL=/usr/local/bin/zsh
-    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  ;;
-  Linux)
-    export GOPATH='/home/greg/Projects/src/go'
-    export PATH=$PATH:/usr/local/src/idea/bin
-    export SHELL=/usr/bin/zsh
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  ;;
-esac
-
 # setting history
 HISTFILE=~/.zsh_history
-HISTSIZE=5000
-SAVEHIST=5000
+HISTSIZE=10000
+SAVEHIST=10000
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -91,13 +72,22 @@ SAVEHIST=5000
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export SHELL=/usr/local/bin/zsh
+
+export ANSIBLE_ROLES_PATH='/usr/local/etc/ansible/roles'
 export CLICOLOR=1
-export DOCKER_BUILDKIT=1
 export EDITOR='vim'
+export GOPATH='/Users/greg/Projects/src/go'
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home'
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$HOME/Bin
 export PATH=$PATH:/usr/local/go/bin
 export PROJECT_DIR=$HOME/Projects
+export RSPEC_OPTS='-f d'
+export SUPPRESS_JASMINE_DEPRECATION='true'
 export TERM=xterm-256color
 export VIMCONFIG=$HOME/.vim
 export VIMDATA=$HOME/.vim
@@ -120,6 +110,7 @@ alias listening='sudo lsof -i -n -P | grep -i listen'
 alias lzd='lazydocker'
 alias myip='curl -s https://icanhazip.com | tee /dev/tty | pbcopy'
 alias prune_branches='git branch | grep -v "develop\|master" | xargs git branch -D'
+alias restart_touchbar='sudo pkill TouchBarServer'
 alias run_brakeman='brakeman -A -z -f html -o $PWD/tmp/brakeman/brakeman.html'
 alias start_dynamo='docker run --rm --name docker-dynamo -p 8000:8000 amazon/dynamodb-local'
 alias start_mongo='docker run --rm --name docker-mongo -p 27017:27017 -v $HOME/docker/volumes/mongodb:/data/db mongo'
@@ -132,6 +123,7 @@ alias v='vim'
 alias vi='vim'
 alias weather='curl wttr.in/sat'
 
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zshrc_private
 setopt sharehistory
 
@@ -165,6 +157,10 @@ function h() {
   history | grep $*
 }
 
+function sync_tags() {
+  git tag -l | xargs git tag -d && git fetch
+}
+
 function uninstall_gems() {
   for i in `gem list --no-versions`; do gem uninstall -aIx $i; done
 }
@@ -177,5 +173,10 @@ source ~/.rvm/scripts/rvm
 
 bindkey '^ ' autosuggest-accept
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-[[ -s /usr/local/etc/grc.zsh ]] && source /usr/local/etc/grc.zsh
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# [[ -s /usr/local/etc/grc.zsh ]] && source /usr/local/etc/grc.zsh
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
