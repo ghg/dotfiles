@@ -72,19 +72,15 @@ SAVEHIST=10000
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export SHELL=/usr/local/bin/zsh
+export SHELL=/opt/homebrew/bin/zsh
 
-export ANSIBLE_ROLES_PATH='/usr/local/etc/ansible/roles'
 export CLICOLOR=1
 export EDITOR='vim'
 export GOPATH='/Users/greg/Projects/src/go'
 export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home'
-# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home'
-# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home'
-# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-10.0.1.jdk/Contents/Home'
+export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH=$PATH:$HOME/Bin
-export PATH=$PATH:/usr/local/go/bin
 export PROJECT_DIR=$HOME/Projects
 export RSPEC_OPTS='-f d'
 export SUPPRESS_JASMINE_DEPRECATION='true'
