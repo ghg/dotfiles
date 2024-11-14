@@ -26,3 +26,9 @@
 
 [init]
 	defaultBranch = master
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[url "ssh://git@github.rackspace.com/"]
+	insteadOf = https://github.rackspace.com/

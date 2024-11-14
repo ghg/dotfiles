@@ -5,7 +5,6 @@
 .idea
 .tags*
 tags
-vendor
 *.7z
 *.beam
 *.db

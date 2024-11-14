@@ -74,15 +74,26 @@ SAVEHIST=10000
 
 export SHELL=/opt/homebrew/bin/zsh
 
+export AWS_REGION=us-east-1
 export CLICOLOR=1
 export EDITOR='vim'
-export GOPATH='/Users/greg/Projects/src/go'
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home'
+export GOPATH='/opt/homebrew/opt/go/libexec'
+# export JAVA_HOME='/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home'
+export JAVA_HOME='/opt/homebrew/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home'
+# export JAVA_HOME='/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home'
+# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+# export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/sbin:$PATH
+# export PATH=/opt/homebrew/opt/python@3.11/libexec/bin:$PATH
+export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PATH=$PATH:$HOME/Bin
+export PATH=$PATH:/opt/homebrew/Cellar/go/1.22.0/libexec/bin
+export PATH="/opt/homebrew/opt/ansible@9/bin:$PATH"
 export PROJECT_DIR=$HOME/Projects
 export RSPEC_OPTS='-f d'
+export RUBYOPT="-W0"
 export SUPPRESS_JASMINE_DEPRECATION='true'
 export TERM=xterm-256color
 export VIMCONFIG=$HOME/.vim
@@ -101,25 +112,30 @@ alias gc='git commit'
 alias gco='git checkout'
 alias gd='git diff'
 alias gg='git grep'
-alias gl='git log --pretty=oneline | head -n 25'
+alias gl='git log --pretty=oneline -25'
 alias listening='sudo lsof -i -n -P | grep -i listen'
 alias lzd='lazydocker'
 alias myip='curl -s https://icanhazip.com | tee /dev/tty | pbcopy'
 alias prune_branches='git branch | grep -v "develop\|master" | xargs git branch -D'
-alias restart_touchbar='sudo pkill TouchBarServer'
 alias run_brakeman='brakeman -A -z -f html -o $PWD/tmp/brakeman/brakeman.html'
+alias start_centos='docker run -it --platform linux/x86_64 --entrypoint /bin/bash centos:7'
 alias start_dynamo='docker run --rm --name docker-dynamo -p 8000:8000 amazon/dynamodb-local'
+alias start_gcloud='docker run -it --entrypoint /bin/bash gcr.io/google.com/cloudsdktool/google-cloud-cli:latest'
 alias start_mongo='docker run --rm --name docker-mongo -p 27017:27017 -v $HOME/docker/volumes/mongodb:/data/db mongo'
-alias start_mysql='docker run --rm --name docker-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -v $HOME/docker/volumes/mysql:/var/lib/mysql mysql:5.7'
+alias start_mysql='docker run --rm --name docker-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -v $HOME/docker/volumes/mysql:/var/lib/mysql mysql:5.6'
+alias start_mysql8='docker run --name docker-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -d -v $HOME/docker/volumes/mysql:/var/lib/mysql mysql:latest'
 alias start_postgres='docker run --rm --name docker-pg -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres'
+alias start_postgres_local='/opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgresql@14'
 alias start_redis='docker run --rm --name docker-redis -p 6379:6379 -v $HOME/docker/volumes/redis:/data redis redis-server --appendonly yes'
+alias start_rocky='docker run -it --platform linux/x86_64 --entrypoint /bin/bash rockylinux:9.2'
 alias start_sqlite='docker run --rm --name docker-sqlite nouchka/sqlite3'
+alias tf='terraform'
 alias utc='date -u'
 alias v='vim'
 alias vi='vim'
 alias weather='curl wttr.in/sat'
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zshrc_private
 setopt sharehistory
 
@@ -149,8 +165,16 @@ function get_strace_summary_for_pid() {
   strace -cp $*
 }
 
+function ggab() {
+  git rev-list --all | xargs git grep $*
+}
+
 function h() {
   history | grep $*
+}
+
+function run_docker_bash() {
+  docker run --rm -it --entrypoint bash $*
 }
 
 function sync_tags() {
@@ -165,7 +189,8 @@ function uninstall_gems() {
 ssh-add -A > /dev/null 2>&1
 
 # include rvm
-source ~/.rvm/scripts/rvm
+# source ~/.rvm/scripts/rvm
+eval "$(rbenv init - zsh)"
 
 bindkey '^ ' autosuggest-accept
 
